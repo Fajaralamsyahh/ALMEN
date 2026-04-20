@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALMÉN — A Legacy for Men</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #08070a;
+    --deep: #0e0c11;
+    --surface: #141217;
+    --card: #1a181e;
+    --gold: #c9a96e;
+    --gold-light: #e0c690;
+    --gold-dim: #8a6f42;
+    --cream: #f0ece4;
+    --muted: #8a8480;
+    --classic: #6b3a28;
+    --classic-light: #a06040;
+    --fresh: #3d5c3a;
+    --fresh-light: #6a9966;
+    --bold: #3a2a1a;
+    --bold-light: #7a5535;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(201, 169, 110, 0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Nav */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 28px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(8,7,10,0.95) 0%, transparent 100%);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: var(--cream);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 40%, rgba(201,169,110,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.2s forwards;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(72px, 14vw, 160px);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    line-height: 0.9;
+    color: var(--cream);
+    opacity: 0;
+    animation: fadeUp 1.2s ease 0.4s forwards;
+  }
+  .hero-title span {
+    display: block;
+    font-style: italic;
+    font-size: 0.55em;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    margin-top: 12px;
+  }
+  .hero-sub {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 48px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.8s forwards;
+  }
+  .hero-divider {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    margin: 48px auto 0;
+    opacity: 0;
+    animation: fadeUp 1s ease 1s forwards;
+  }
+  .hero-scroll {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 16px;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.2s forwards;
+  }
+
+  /* Gold line decorations */
+  .line-accent {
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 16px;
+    opacity: 0.6;
+  }
+
+  /* Section layout */
+  section {
+    padding: 120px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 60px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(201,169,110,0.2);
+    margin-left: 24px;
+  }
+
+  /* Products */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .product-card {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    cursor: none;
+    transition: all 0.5s ease;
+  }
+
+  .product-card:hover .product-fill { transform: scaleY(1); }
+  .product-card:hover .product-info { opacity: 1; transform: translateY(0); }
+  .product-card:hover .product-name { color: var(--cream); }
+  .product-card:hover .product-bottle-svg { transform: scale(1.04); }
+
+  .product-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .product-fill {
+    position: absolute;
+    inset: 0;
+    transform-origin: bottom;
+    transform: scaleY(0);
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 1;
+  }
+
+  .product-card.classic .product-bg { background: #110d0a; }
+  .product-card.classic .product-fill { background: linear-gradient(to top, rgba(107,58,40,0.4) 0%, transparent 80%); }
+
+  .product-card.fresh .product-bg { background: #0a0d0a; }
+  .product-card.fresh .product-fill { background: linear-gradient(to top, rgba(61,92,58,0.4) 0%, transparent 80%); }
+
+  .product-card.bold .product-bg { background: #0d0a08; }
+  .product-card.bold .product-fill { background: linear-gradient(to top, rgba(58,42,26,0.45) 0%, transparent 80%); }
+
+  .product-inner {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px 30px;
+  }
+
+  .product-header {
+    text-align: center;
+  }
+
+  .product-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .product-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: var(--cream);
+    transition: color 0.4s;
+  }
+
+  .product-bottle-svg {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    transition: transform 0.5s ease;
+  }
+
+  .product-footer {
+    text-align: center;
+    width: 100%;
+  }
+
+  .product-info {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s ease 0.1s;
+    margin-bottom: 20px;
+  }
+
+  .product-notes {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    line-height: 2;
+  }
+
+  .product-notes span {
+    color: var(--gold);
+  }
+
+  .product-cta {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,169,110,0.3);
+    padding: 12px 28px;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .product-cta:hover {
+    background: var(--gold);
+    color: var(--black);
+    border-color: var(--gold);
+  }
+
+  /* Bottle SVG styles */
+  .bottle-wrapper { width: 120px; height: 160px; }
+
+  /* Philosophy */
+  .philosophy {
+    padding: 140px 60px;
+    background: var(--deep);
+    position: relative;
+    overflow: hidden;
+  }
+  .philosophy::before {
+    content: '"';
+    position: absolute;
+    top: -20px;
+    left: 40px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 400px;
+    color: rgba(201,169,110,0.04);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .philosophy-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 100px;
+    align-items: center;
+  }
+  .philosophy-left .section-label { margin-bottom: 32px; }
+  .philosophy-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--cream);
+  }
+  .philosophy-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .philosophy-right p {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+  .philosophy-right p strong {
+    font-weight: 400;
+    color: var(--cream);
+  }
+
+  /* Stats strip */
+  .stats {
+    padding: 80px 60px;
+    border-top: 1px solid rgba(201,169,110,0.1);
+    border-bottom: 1px solid rgba(201,169,110,0.1);
+  }
+  .stats-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+  .stat-item {
+    text-align: center;
+    padding: 20px;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+  }
+  .stat-label {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 10px;
+    display: block;
+  }
+
+  /* Collection banner */
+  .collection-banner {
+    padding: 0 60px 120px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .banner-inner {
+    background: var(--surface);
+    border: 1px solid rgba(201,169,110,0.12);
+    padding: 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .banner-inner::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,169,110,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .banner-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 300;
+    color: var(--cream);
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .banner-sub {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .btn-primary {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--gold);
+    padding: 18px 48px;
+    text-decoration: none;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+  }
+  .btn-secondary {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,169,110,0.4);
+    padding: 17px 40px;
+    text-decoration: none;
+    transition: all 0.3s;
+    margin-left: 16px;
+  }
+  .btn-secondary:hover {
+    border-color: var(--gold);
+    background: rgba(201,169,110,0.05);
+  }
+
+  /* Ingredients */
+  .ingredients {
+    padding: 120px 60px;
+    background: var(--deep);
+  }
+  .ingredients-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .ingredients-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 60px;
+  }
+  .ingredient-card {
+    padding: 48px 36px;
+    border: 1px solid rgba(201,169,110,0.1);
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .ingredient-card:hover {
+    border-color: rgba(201,169,110,0.3);
+  }
+  .ingredient-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px;
+    font-weight: 300;
+    color: rgba(201,169,110,0.12);
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+  .ingredient-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+  }
+  .ingredient-desc {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--muted);
+  }
+  .ingredient-tag {
+    display: inline-block;
+    font-size: 8px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 20px;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid rgba(201,169,110,0.1);
+    padding: 60px;
+  }
+  .footer-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: var(--cream);
+  }
+  .footer-copy {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .footer-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    nav { padding: 24px 30px; }
+    .nav-links { display: none; }
+    section { padding: 80px 30px; }
+    .products-grid { grid-template-columns: 1fr; gap: 2px; }
+    .product-card { aspect-ratio: 2/1; }
+    .product-inner { flex-direction: row; padding: 24px; }
+    .product-bottle-svg { flex: 0; width: 80px; }
+    .bottle-wrapper { width: 60px; height: 80px; }
+    .philosophy-inner { grid-template-columns: 1fr; gap: 48px; }
+    .stats-inner { grid-template-columns: repeat(2, 1fr); }
+    .ingredients-grid { grid-template-columns: 1fr; }
+    .banner-inner { padding: 48px 24px; }
+    footer { padding: 40px 30px; }
+    .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+    .collection-banner { padding: 0 30px 80px; }
+    .stats { padding: 60px 30px; }
+    .philosophy { padding: 80px 30px; }
+    .ingredients { padding: 80px 30px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<nav>
+  <a href="#" class="nav-logo">ALMÉN</a>
+  <ul class="nav-links">
+    <li><a href="#collection">Koleksi</a></li>
+    <li><a href="#philosophy">Filosofi</a></li>
+    <li><a href="#ingredients">Bahan</a></li>
+    <li><a href="#contact">Hubungi</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow"><span class="line-accent"></span> Parfum Premium Indonesia <span class="line-accent"></span></p>
+  <h1 class="hero-title">
+    ALMÉN
+    <span>A Legacy for Men</span>
+  </h1>
+  <p class="hero-sub">Classic &nbsp;·&nbsp; Fresh &nbsp;·&nbsp; Bold</p>
+  <div class="hero-divider"></div>
+  <p class="hero-scroll">Gulir ke bawah</p>
+</div>
+
+<!-- PRODUCTS -->
+<div id="collection" style="background: var(--black);">
+  <div style="max-width:1400px; margin:0 auto; padding: 0 60px 0; padding-top: 40px;">
+    <div class="section-label reveal">Koleksi Perdana</div>
+  </div>
+  <div class="products-grid reveal" style="max-width:1400px; margin: 0 auto 0;">
+
+    <!-- CLASSIC -->
+    <div class="product-card classic">
+      <div class="product-bg"></div>
+      <div class="product-fill"></div>
+      <div class="product-inner">
+        <div class="product-header">
+          <span class="product-brand">Almén</span>
+          <h2 class="product-name">Classic</h2>
+        </div>
+        <div class="product-bottle-svg">
+          <img src="images/classic.jpg" alt="ALMÉN CLASSIC" style="max-height:320px;max-width:180px;object-fit:contain;">
+        </div>
+        <div class="product-footer">
+          <div class="product-info">
+            <p class="product-notes">
+              <span>Oud · Vetiver</span><br>
+              Amber · Kayu Cendana
+            </p>
+          </div>
+          <a href="#" class="product-cta">Pilih Varian</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRESH -->
+    <div class="product-card fresh" style="transform: scaleY(1.04); z-index: 2;">
+      <div class="product-bg"></div>
+      <div class="product-fill"></div>
+      <div style="position:absolute; top:16px; left:50%; transform:translateX(-50%); z-index:3;">
+        <span style="font-size:8px; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; background:rgba(0,0,0,0.6); padding:5px 14px; border:1px solid rgba(201,169,110,0.3);">Terfavorit</span>
+      </div>
+      <div class="product-inner">
+        <div class="product-header">
+          <span class="product-brand">Almén</span>
+          <h2 class="product-name">Fresh</h2>
+        </div>
+        <div class="product-bottle-svg">
+          <img src="images/fresh.jpg" alt="ALMÉN FRESH" style="max-height:320px;max-width:180px;object-fit:contain;">
+        </div>
+        <div class="product-footer">
+          <div class="product-info">
+            <p class="product-notes">
+              <span>Bergamot · Mint</span><br>
+              Teh Hijau · Musk Putih
+            </p>
+          </div>
+          <a href="#" class="product-cta">Pilih Varian</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOLD -->
+    <div class="product-card bold">
+      <div class="product-bg"></div>
+      <div class="product-fill"></div>
+      <div class="product-inner">
+        <div class="product-header">
+          <span class="product-brand">Almén</span>
+          <h2 class="product-name">Bold</h2>
+        </div>
+        <div class="product-bottle-svg">
+          <img src="images/bold.jpg" alt="ALMÉN BOLD" style="max-height:320px;max-width:180px;object-fit:contain;">
+        </div>
+        <div class="product-footer">
+          <div class="product-info">
+            <p class="product-notes">
+              <span>Patchouli · Tembakau</span><br>
+              Kulit · Hitam Musk
+            </p>
+          </div>
+          <a href="#" class="product-cta">Pilih Varian</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <span class="stat-num">3</span>
+      <span class="stat-label">Varian Eksklusif</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-num">100%</span>
+      <span class="stat-label">Bahan Premium</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-num">8+</span>
+      <span class="stat-label">Jam Ketahanan Aroma</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-num">EDP</span>
+      <span class="stat-label">Eau de Parfum</span>
+    </div>
+  </div>
+</div>
+
+<!-- PHILOSOPHY -->
+<div class="philosophy" id="philosophy">
+  <div class="philosophy-inner">
+    <div class="philosophy-left">
+      <div class="section-label reveal">Filosofi</div>
+      <h2 class="philosophy-title reveal">
+        Warisan<br>yang <em>Abadi</em><br>dalam Setiap<br>Tetes
+      </h2>
+    </div>
+    <div class="philosophy-right reveal">
+      <p>
+        ALMÉN lahir dari keyakinan bahwa <strong>aroma adalah bahasa paling jujur seorang pria.</strong> Sebelum kamu berbicara, sebelum orang mengenalmu—wewangianmu sudah bercerita.
+      </p>
+      <p>
+        Kami meramu setiap botol dengan presisi dan rasa hormat terhadap tradisi parfumeri kelas dunia, namun dengan jiwa yang sepenuhnya <strong>Indonesia.</strong>
+      </p>
+      <p>
+        Bukan sekadar wewangian. ALMÉN adalah pernyataan karakter. <strong>Sebuah warisan untuk pria modern.</strong>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- INGREDIENTS -->
+<div class="ingredients" id="ingredients">
+  <div class="ingredients-inner">
+    <div class="section-label reveal">Bahan Pilihan</div>
+    <div class="ingredients-grid">
+      <div class="ingredient-card reveal">
+        <div class="ingredient-num">01</div>
+        <h3 class="ingredient-name">Oud Arabia</h3>
+        <p class="ingredient-desc">Kayu gaharu terbaik dari Timur Tengah. Hangat, dalam, dan misterius—aroma yang bertahan sepanjang hari.</p>
+        <span class="ingredient-tag">Base Note</span>
+      </div>
+      <div class="ingredient-card reveal">
+        <div class="ingredient-num">02</div>
+        <h3 class="ingredient-name">Bergamot Italia</h3>
+        <p class="ingredient-desc">Jeruk bergamot segar dari Calabria, Italia. Memberikan kesan bersih dan modern di awal semprotan.</p>
+        <span class="ingredient-tag">Top Note</span>
+      </div>
+      <div class="ingredient-card reveal">
+        <div class="ingredient-num">03</div>
+        <h3 class="ingredient-name">Vetiver Haitian</h3>
+        <p class="ingredient-desc">Akar vetiver dari Haiti dengan kedalaman tanah yang maskulin, membentuk karakter yang kuat dan berkesan.</p>
+        <span class="ingredient-tag">Heart Note</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA BANNER -->
+<div class="collection-banner">
+  <div class="banner-inner reveal">
+    <h2 class="banner-title">Mulai Perjalanan<br>Wewangian Anda</h2>
+    <p class="banner-sub">Tersedia dalam kemasan eksklusif — gratis ongkir seluruh Indonesia</p>
+    <a href="#collection" class="btn-primary">Pesan Sekarang</a>
+    <a href="#" class="btn-secondary">Coba Sample</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-inner">
+    <span class="footer-logo">ALMÉN</span>
+    <ul class="footer-links">
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">WhatsApp</a></li>
+      <li><a href="#">Tokopedia</a></li>
+      <li><a href="#">Shopee</a></li>
+    </ul>
+    <span class="footer-copy">© 2025 Almén · A Legacy for Men</span>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  document.querySelectorAll('a, button, .product-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(2.5)';
+      ring.style.transform = 'translate(-50%, -50%) scale(0.5)';
+      ring.style.opacity = '0';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      ring.style.transform = 'translate(-50%, -50%) scale(1)';
+      ring.style.opacity = '1';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav scroll effect
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) {
+      nav.style.background = 'rgba(8,7,10,0.97)';
+      nav.style.borderBottom = '1px solid rgba(201,169,110,0.08)';
+    } else {
+      nav.style.background = 'linear-gradient(to bottom, rgba(8,7,10,0.95) 0%, transparent 100%)';
+      nav.style.borderBottom = 'none';
+    }
+  });
+</script>
+</body>
+</html>
